@@ -5,34 +5,34 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-# Veri seti
+# Dataset
 data = {
-    'Not': [65, 80, 75, 50, 90],
-    'Ders_Calisma_Saati': [5, 7, 6, 3, 8],
-    'Gecti': [0, 1, 1, 0, 1]
+    'Grade': [65, 80, 75, 50, 90],
+    'Study_Hours': [5, 7, 6, 3, 8],
+    'Passed': [0, 1, 1, 0, 1]
 }
 
 df = pd.DataFrame(data)
 
-# Bağımsız ve bağımlı değişkenleri ayırma
-X = df[['Not', 'Ders_Calisma_Saati']]
-Y = df['Gecti']
+# Separate independent and dependent variables
+X = df[['Grade', 'Study_Hours']]
+Y = df['Passed']
 
-# Eğitim ve test verilerini ayırma (%80 eğitim, %20 test)
+# Split the data into training and test sets
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 
-# Veriyi ölçeklendirme (Lojistik Regresyon daha iyi çalışsın diye)
+# Scale the features
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-# Modeli oluştur ve eğit
+# Create and train the model
 model = LogisticRegression()
 model.fit(X_train_scaled, Y_train)
 
-# Tahmin yap
+# Make predictions
 Y_pred = model.predict(X_test_scaled)
 
-# Doğruluk oranını hesapla
+# Calculate the accuracy
 accuracy = accuracy_score(Y_test, Y_pred)
-print('Doğruluk oranı:', accuracy)
+print('Accuracy:', accuracy)
